@@ -1,0 +1,12 @@
+{
+  "breed": "Akita",
+  "description": "The Akita is a muscular, double-coated dog of ancient Japanese lineage famous for their dignity, courage, and loyalty.",
+  "pictureURL": "http://images.com/akita",
+  "height": 26,
+  "weight": 100,
+  "lifeSpan": 10,
+  "breedCharacteristics": [
+    "adaptability",
+    "easy-to-train"
+  ]
+}

@@ -1,0 +1,434 @@
+openapi: 3.0.0
+info:
+  title: Dog CRUD Rest API (Redis OM and Express)
+  description: >
+    A simple sample API that shows assorted ways to use Redis OM for
+    Node.js with an express application using express-validation.
+  version: 1.0.0
+
+paths:
+  /dog:
+    put:
+      tags:
+        - Dog
+      description: Creates a new dog with the specified attributes
+      summary: Create dog
+      operationId: createDog
+      requestBody:
+        description: dog
+        required: true
+        content:
+          application/json:
+            schema:
+              title: dog
+              allOf:
+                - $ref: "#/components/schemas/dog"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/dog_id"
+                  - $ref: "#/components/schemas/dog"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_400"
+  
+  /dog/{id}:
+    get:
+      tags:
+        - Dog
+      description: Gets a specific dog by ID
+      summary: Get dog
+      operationId: fetchDog
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/dog_id"
+                  - $ref: "#/components/schemas/dog"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_400"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_404"                                     
+    
+    post:
+      tags:
+        - Dog
+      description: Updates a specific dog
+      summary: Update dog
+      operationId: updateDog
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        description: dog
+        required: true
+        content:
+          application/json:
+            schema:
+              title: dog
+              allOf:
+                - $ref: "#/components/schemas/dog"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/dog_id"
+                  - $ref: "#/components/schemas/dog"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_400"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_404"                                     
+    
+    delete:
+      tags: 
+         - Dog
+      description: Deletes the dog by ID
+      summary: Delete dog
+      operationId: removeDog
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/dog_id"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_400"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_404"                                     
+  
+  /dogs/all:
+    get:
+      tags:
+        - Search
+      description: Gets all the dogs
+      summary: Get all dogs
+      operationId: fetchAllDogs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/dogs"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_400"                  
+  
+  /dogs/by-breed/{breed}:
+    get:
+      tags:
+        - Search
+      description: Gets dogs by breed
+      summary: Get dogs by breed
+      operationId: fetchDogsByBreed
+      parameters:
+        - $ref: "#/components/parameters/breed"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/dogs"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_400"                  
+  
+  /dogs/with-description-containing/{text}:
+    get:
+      tags:
+        - Search
+      description: Gets dogs with description matching the offered text
+      summary: Get dogs with words matching the description
+      operationId: fetchDogsWithDescription
+      parameters:
+        - $ref: "#/components/parameters/text"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/dogs"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/errors_400"                 
+
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The ID of the dog to interact with
+      schema:
+        $ref: "#/components/schemas/id"
+    
+    breed:
+      name: breed
+      in: path
+      required: true
+      description: The breed of the dog
+      schema:
+        $ref: "#/components/schemas/breed"
+    
+    text:
+      name: text
+      in: path
+      required: true
+      description: Text to search for
+      schema:
+        $ref: "#/components/schemas/text"
+
+  schemas:
+    dog_id:
+      type: object
+      properties:
+        entityId:
+          $ref: "#/components/schemas/id"
+
+    dogs:
+      type: array
+      items:
+        $ref: "#/components/schemas/dog"
+
+    dog:
+      allOf:
+        - $ref: "#/components/schemas/dog_breed"
+        - $ref: "#/components/schemas/dog_description"
+        - $ref: "#/components/schemas/dog_picture_url"
+        - $ref: "#/components/schemas/dog_height"
+        - $ref: "#/components/schemas/dog_weight"
+        - $ref: "#/components/schemas/dog_life_span"
+        - $ref: "#/components/schemas/dog_breed_characteristics"
+
+    dog_breed:
+      type: object
+      properties:
+        breed:
+          $ref: "#/components/schemas/breed"
+
+    dog_description:
+      type: object
+      properties:
+        description:
+          $ref: "#/components/schemas/description"
+
+    dog_picture_url:
+      type: object
+      properties:
+        pictureURL:
+          $ref: "#/components/schemas/picture_url"          
+
+    dog_height:
+      type: object
+      properties:
+        height:
+          $ref: "#/components/schemas/height"
+
+    dog_weight:
+      type: object
+      properties:
+        weight:
+          $ref: "#/components/schemas/weight"
+
+    dog_life_span:
+      type: object
+      properties:
+        lifeSpan:
+          $ref: "#/components/schemas/life_span"                    
+
+    dog_breed_characteristics:
+      type: object
+      properties:
+        breedCharacteristics:
+          $ref: "#/components/schemas/breed_characteristics"
+
+    errors_400:
+      type: array
+      items:
+        $ref: "#/components/schemas/error_400"
+    
+    error_400:
+      allOf:
+        - $ref: "#/components/schemas/error_400_value"
+        - $ref: "#/components/schemas/error_400_msg"
+        - $ref: "#/components/schemas/error_400_param"
+        - $ref: "#/components/schemas/error_400_location"
+
+    error_400_value:
+      type: object
+      properties:
+        value:
+          $ref: "#/components/schemas/error_400_value_definition"
+    
+    error_400_msg:
+      type: object
+      properties:
+        msg:
+          $ref: "#/components/schemas/error_400_msg_definition"
+    
+    error_400_param:
+      type: object
+      properties:
+        param:
+          $ref: "#/components/schemas/error_400_param_definition"
+    
+    error_400_location:
+      type: object
+      properties:
+        location:
+          $ref: "#/components/schemas/error_400_location_definition"
+
+    errors_404:
+      allOf:
+        - $ref: "#/components/schemas/error_404_msg"
+
+    error_404_msg:
+      type: object
+      properties:
+        msg:
+          $ref: "#/components/schemas/error_404_msg_definition"
+
+    id:
+      description: The ID of the dog
+      type: string
+      example: 01FX8N39YVZRCQNAW0R5T53H5T
+
+    breed:
+      description: The breed of the dog
+      type: string
+      example: Akita
+
+    description:
+      description: A description about the dog
+      type: string
+      example: The Akita is a muscular, double-coated dog of ancient Japanese lineage famous for their dignity, courage, and loyalty.
+
+    picture_url:
+      description: A url to the picture of the dog
+      type: string
+      example: http://images.com/akita
+
+    height:
+      description: The height of the dog in inches
+      type: integer
+      format: int32
+      example: 26
+
+    weight:
+      description: The weight of the dog in pounds
+      type: integer
+      format: int32
+      example: 100
+
+    life_span:
+      description: The life span of the dog in years
+      type: integer
+      format: int32
+      example: 10
+
+    breed_characteristics:
+      description: A list of characteristics that the dog's breed possesses
+      type: array
+      items:
+        type: string
+        example: adaptability
+      example:
+        - adaptability
+        - easy-to-train
+
+    text:
+      description: Text to search for in human-readable text
+      type: string
+      example: loyalty
+
+    error_400_value_definition:
+      description: Value of the invalid param
+      type: object
+      example: 0
+
+    error_400_msg_definition:
+      description: Message error linked to the invalid param
+      type: string
+      example: Invalid value
+
+    error_400_param_definition:
+      description: Name of the invalid param
+      type: string
+      example: height
+
+    error_400_location_definition:
+      description: Location of the invalid param
+      type: string
+      example: body
+
+    error_404_msg_definition:
+      description: Resource not found message error
+      type: string
+      example: Dog with ID=01FX8N39YVZRCQNAW0R5T53H5T was not found
+      

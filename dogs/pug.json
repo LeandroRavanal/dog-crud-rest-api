@@ -1,0 +1,15 @@
+{
+  "breed": "Pug",
+  "description": "Once the mischievous companion of Chinese emperors, and later the mascot of Holland's royal House of Orange, the small but solid Pug is today adored by his millions of fans around the world.",
+  "pictureURL": "http://images.com/pug",
+  "height": 10,
+  "weight": 14,
+  "lifeSpan": 13,
+  "breedCharacteristics": [
+    "adaptability",
+    "potential for weight gain",
+    "kid-friendly",
+    "easy-to-train",
+    "adapts well to apartment living"
+  ]
+}

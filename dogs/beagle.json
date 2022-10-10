@@ -1,0 +1,14 @@
+{
+  "breed": "Beagle",
+  "description": "Not only is the Beagle an excellent hunting dog and loyal companion, it is also happy-go-lucky, funny, and 'thanks to its pleading expression' cute.",
+  "pictureURL": "http://images.com/beagle",
+  "height": 13,
+  "weight": 20,
+  "lifeSpan": 10,
+  "breedCharacteristics": [
+    "adaptability",
+    "kid-friendly",
+    "easy-to-train",
+    "adapts well to apartment living"
+  ]
+}

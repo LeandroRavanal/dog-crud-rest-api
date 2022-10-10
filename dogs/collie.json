@@ -1,0 +1,13 @@
+{
+  "breed": "Collie",
+  "description": "The majestic Collie, thanks to a hundred years as a pop-culture star, is among the world's most recognizable and beloved dog breeds.",
+  "pictureURL": "http://images.com/collie",
+  "height": 24,
+  "weight": 60,
+  "lifeSpan": 12,
+  "breedCharacteristics": [
+    "adaptability",
+    "kid-friendly",
+    "easy-to-train"
+  ]
+}

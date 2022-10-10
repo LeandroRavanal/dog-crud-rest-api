@@ -1,0 +1,13 @@
+{
+  "breed": "Dogo Argentino",
+  "description": "The Dogo Argentino is a pack-hunting dog, bred for the pursuit of big-game such as wild boar and puma, and possesses the strength, intelligence and quick responsiveness of a serious athlete.",
+  "pictureURL": "http://images.com/dogo-argentino",
+  "height": 24,
+  "weight": 80,
+  "lifeSpan": 9,
+  "breedCharacteristics": [
+    "adaptability",
+    "kid-friendly",
+    "easy-to-train"
+  ]
+}

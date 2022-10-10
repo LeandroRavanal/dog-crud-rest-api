@@ -1,0 +1,1 @@
+(cd dogs;./load-data.sh)
