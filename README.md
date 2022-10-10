@@ -11,9 +11,9 @@ Thanks for using my code and I sincerely hope you find it useful.
 
 -- Guy
 
-> crud persons to crud dogs
-> express-validations
-> docker
-> docker-compose
+* crud persons to crud dogs
+* express-validations
+* docker
+* docker-compose
 
 -- Leandro
