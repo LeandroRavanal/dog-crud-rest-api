@@ -3,7 +3,7 @@ services:
   api-rest-service-1:
     image: api_rest
     container_name: api-rest-container-1
-    build: 
+    build:
       context: .
       dockerfile: dockerfile
     ports:
@@ -20,12 +20,20 @@ services:
   redis:
     image: redis/redis-stack-server
     container_name: redis-container
-  data:
+  redis-data:
+    image: redis
+    container_name: redis-data-container
+    volumes:
+      - ./data.sql:/data.sql
+    command: sh -c "redis-cli -h redis < /data.sql"
+    depends_on:
+      - redis
+  api-data:
     image: alpine/curl
-    container_name: data-container
-    volumes: 
-       - ./dogs:/dogs
-       - ./init.sh:/init.sh
+    container_name: api-data-container
+    volumes:
+      - ./dogs:/dogs
+      - ./init.sh:/init.sh
     entrypoint: sh -c "/init.sh"
     depends_on:
       - api-rest-service-1
