@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import { checkSchema, validationResult } from 'express-validator';
+import { checkSchema, validationResult } from 'express-validator'
 import { dogRepository } from '../om/dog.js'
 import { connection } from '../om/client.js'
 
 export const router = Router()
 
-const breedCharacteristics = async () => await connection.sMembers('BREED_CHARS');
+export const dogValidations = { breedCharacteristics: async () => await connection.sMembers('BREED_CHARS') }
 
 const idValidationSchema = {
   id: { in: 'params', isAlphanumeric: true, isUppercase: true, isLength: { options: { min: 26, max: 26 } } }  
@@ -20,7 +20,7 @@ const dogValidationSchema = {
   lifeSpan: { in: 'body', isInt: { options: { gt: 0, lt: 25 } } },
   breedCharacteristics: { in: 'body', isArray: true, custom: {
       options: async (values, { req, location, path }) => {
-        return breedCharacteristics().then((breedChars) => {
+        return dogValidations.breedCharacteristics().then((breedChars) => {
           const errors = values.filter(value => !breedChars.includes(value))
           if (errors.length)
             throw new Error('Breed chars contains invalid value(s): ' + errors.join(', '))
